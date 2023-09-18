@@ -1,0 +1,32 @@
+from collections import deque
+class Solution:
+    def solve(self, A, B, C):
+        if A == 1 and B == 1:
+            return 0
+        queue = deque()
+        queue.append((0, 0, 0))
+        this = {'U': (-1, 0), 'R': (0,1), 'L': (0, -1), 'D':(1, 0) }
+        vis = {(0,0):0}
+        while queue:
+            i, j, dis= queue.popleft()
+            if i == A - 1 and j == B - 1:
+                return dis
+            p = this[C[i][j]]
+            # print(p, C[i][j], i+p[0], j+p[1])
+            if 0 <= i + p[0] < A and 0 <= j + p[1] < B:
+                if (i+p[0], j+p[1]) not in vis or vis[(i+p[0], j+p[1])] >dis:
+                    queue.appendleft((i+p[0], j+p[1], dis))
+                    vis[(i+p[0], j+p[1])] = dis
+            for _ in this:
+                if _ != C[i][j]:
+                    x = this[_][0] 
+                    y = this[_][1]
+                    # print(_, i+x, j+y, )
+                    if 0 <= i + x < A and 0 <= j + y < B:
+                        if i == A - 1 and j == B - 1:
+                            return dis + 1
+                        if (i+x, j+y) not in vis:
+                            queue.append((i+x, j+y, dis+1))
+                            vis[(i+x, j+y)] = dis+1
+            # print(queue)
+            
