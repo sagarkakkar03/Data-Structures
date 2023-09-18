@@ -1,0 +1,34 @@
+from collections import deque
+class Solution:
+    # @param A : list of list of integers
+    # @param B : list of list of integers
+    # @return an integer
+    def snakeLadder(self, A, B):
+        adj = [[] for i in range(101)]
+        for i, j in A:
+            adj[i].append(j)
+        for i, j in B:
+            adj[i].append(j)
+        vis = set()
+        queue = deque()
+        queue.append((1, 0))
+        # print(adj[5], adj[9], adj[67], adj[66], adj[88])
+        while queue:
+            node, dis = queue.popleft()
+            if adj[node] != []:
+                for i in adj[node]:
+                    if i == 100:
+                        return dis
+                    if i not in vis:
+                        vis.add(i)
+                        queue.append((i, dis))
+            else:
+                for i in range(1, 7):
+                    x = node+i
+                    if x == 100:
+                        return dis+1
+                    if x not in vis and x < 100:
+                        vis.add(x)
+                        queue.append((x, dis+1))
+            # print(queue)
+        return -1
