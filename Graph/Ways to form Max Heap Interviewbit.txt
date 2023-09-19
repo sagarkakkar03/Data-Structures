@@ -1,0 +1,25 @@
+from math import *
+class Solution:
+	def solve(self, A):
+        T = [-1 for i in range(A+3)]
+        T[0] = 1
+        T[1] = 1
+        if A == 1:
+            return 1
+        def recursion(n):
+            if T[n] != -1:
+                return T[n]
+            height = log(n+1, 2)
+            height = ceil(height)
+            last = n - 2**(height-1) + 1
+            # print(height)
+            # print(last)
+            # print(2**(height-2))
+            if last <= 2**(height-2):
+                left = 2**(height-2)-1 + last
+            else:
+                left = 2**(height-1)-1
+            right = n - 1 - left
+            T[n] = (comb(n-1, left)*(recursion(left))*(recursion(right)))%(10**9+7)
+            return T[n]
+        return recursion(A)
