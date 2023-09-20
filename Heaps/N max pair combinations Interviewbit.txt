@@ -1,0 +1,27 @@
+from heapq import *
+class Solution:
+	# @param A : list of integers
+	# @param B : list of integers
+	# @return a list of integers
+	def solve(self, A, B):
+        A.sort(reverse = True)
+        B.sort(reverse = True)
+        heap  = []
+        thisset = set()
+        heappush(heap, (-1*(A[0]+B[0]), (0, 0)))
+        i = 0
+        ans = []
+        k = len(A)
+        while i < k:
+            temp = heappop(heap)
+            ans.append(-1*temp[0])
+            x = temp[1][0]
+            y = temp[1][1]
+            if x + 1 < len(A) and (x+1, y) not in thisset:
+                thisset.add((x+1, y))
+                heappush(heap, ((-1*(A[x+1]+B[y]), (x+1, y))))
+            if y + 1 < len(A) and (x, y+1) not in thisset:
+                thisset.add((x, y+1))
+                heappush(heap, ((-1*(A[x]+B[y+1])), (x, y+1)))
+            i += 1
+        return ans
