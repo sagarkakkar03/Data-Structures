@@ -1,0 +1,32 @@
+from collections import deque
+class Solution:
+    # @param A : integer
+    # @return an integer
+    def solve(self, A):
+        queue = deque()
+        if A == 1:
+            return 1
+        queue.append('1')
+        count = 1
+        while queue:
+            node = queue.popleft()
+            # print(node)
+            if len(node)%2 == 0:
+                # print('p')
+                queue.append(node[:len(node)//2] + '0' + node[len(node)//2:])
+                count += 1
+                if count == A:
+                    return int(queue[-1],2)
+                queue.append(node[:len(node)//2] + '1' + node[len(node)//2:])
+                count += 1  
+                if count == A:
+                    return int(queue[-1],2)
+            else:
+                if node[len(node)//2] == '0':
+                    queue.append(node[:len(node)//2] + '0' + node[len(node)//2:])
+                else:
+                    queue.append(node[:len(node)//2] + '1' + node[len(node)//2:])
+                count += 1 
+                if count == A:
+                    return int(queue[-1],2)
+            # print(queue)
